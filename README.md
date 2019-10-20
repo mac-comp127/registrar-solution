@@ -31,14 +31,14 @@ Contract of the `Student` and `Course` API:
 - Courses can have a max enrollment limit on the number of students. 
     > For all courses, `course.getStudents().size()` ≤ `course.getEnrollmentLimit()`.
 
-- Courses can have a waitlist when they go over their enrollment limit. When a student attempts to register for a course that is full, they automatically go on the wait list. The `enroll()` method lets the caller know whether the enrollment was successful or the student was waitlisted.
+- Courses can have a waitlist when they go over their enrollment limit. When a student attempts to register for a course that is full, they automatically go on the waitlist. The `enroll()` method lets the caller know whether the enrollment was successful or the student was waitlisted.
     > Students appear in the waitlist in the order they attempted to register.
     
     > The waitlist never contains duplicates.
     
     > A student is never both enrolled in and wait listed for the same course.
     
-    > If a course is not full, then its wait list is empty.
+    > If a course is not full, then its waitlist is empty.
 
 - The enrollment limit cannot change if any students are already registered for the course. _(You will change this later.)_
 
