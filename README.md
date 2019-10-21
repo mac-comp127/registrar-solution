@@ -12,10 +12,10 @@ We give you objects used by a hypothetical college registrar system to track whi
 ## Contract of the `Student` and `Course` API
 
 - Students know their registered courses, and courses know the list of students enrolled in them.
-    > For all students and courses, `student.getCourses().contains(course)` if and only if `course.getStudents().contains(student)`.
+    > For all students and courses, `student.getCourses().contains(course)` if and only if `course.getRoster().contains(student)`.
 
 - Courses can have a max enrollment limit on the number of students. 
-    > For all courses, `course.getStudents().size()` ≤ `course.getEnrollmentLimit()`.
+    > For all courses, `course.getRoster().size()` ≤ `course.getEnrollmentLimit()`.
 
 - Courses can have a waitlist when they go over their enrollment limit. When a student attempts to register for a course that is full, they automatically go on the waitlist. The `enroll()` method lets the caller know whether the enrollment was successful or the student was waitlisted.
     > Students appear in the waitlist in the order they attempted to register.
@@ -72,7 +72,7 @@ Replace the last item in the contract above with the following new rule:
 - This new contract requires us to make some changes in `setEnrollmentLimit()`.
     - To address (R1), you may use the following code:
         ```java
-        if (getStudents().size() > limit) {
+        if (getRoster().size() > limit) {
             throw new IllegalArgumentException("cannot set limit below class size");
         }
         ```
