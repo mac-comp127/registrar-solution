@@ -39,7 +39,7 @@ public class Course {
         if (limit < 0) {
             throw new IllegalArgumentException("course cannot have negative enrollment limit: " + limit);
         }
-        if (!getStudents().isEmpty()) {
+        if (!getRoster().isEmpty()) {
             throw new IllegalStateException("cannot change enrollment limit once students are enrolled");
         }
 
@@ -49,7 +49,7 @@ public class Course {
     /**
      * Returns all students currently enrolled in this course.
      */
-    public Set<Student> getStudents() {
+    public Set<Student> getRoster() {
         return roster;
     }
 

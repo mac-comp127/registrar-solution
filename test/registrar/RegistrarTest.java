@@ -45,7 +45,7 @@ class RegistrarTest {
     void studentCanEnroll() {
         sally.enrollIn(comp127);
         assertEquals(Set.of(comp127), sally.getCourses());
-        assertEquals(Set.of(sally), comp127.getStudents());
+        assertEquals(Set.of(sally), comp127.getRoster());
     }
 
     @Test
@@ -53,7 +53,7 @@ class RegistrarTest {
         sally.enrollIn(comp127);
         sally.enrollIn(comp127);
         assertEquals(Set.of(comp127), sally.getCourses());
-        assertEquals(Set.of(sally), comp127.getStudents());
+        assertEquals(Set.of(sally), comp127.getRoster());
     }
 
 
@@ -63,7 +63,7 @@ class RegistrarTest {
     void enrollmentLimitDefaultsToUnlimited() {
         factory.enrollMultipleStudents(math6, 1000);
         assertEquals(List.of(), math6.getWaitList());
-        assertEquals(1000, math6.getStudents().size());
+        assertEquals(1000, math6.getRoster().size());
     }
 
     @Test
@@ -77,7 +77,7 @@ class RegistrarTest {
         factory.enrollMultipleStudents(comp127, 15);
         assertTrue(sally.enrollIn(comp127));
         assertEquals(List.of(), comp127.getWaitList());
-        assertTrue(comp127.getStudents().contains(sally));
+        assertTrue(comp127.getRoster().contains(sally));
     }
 
     @Test
@@ -85,7 +85,7 @@ class RegistrarTest {
         factory.enrollMultipleStudents(comp127, 16);
         assertFalse(sally.enrollIn(comp127));
         assertEquals(List.of(sally), comp127.getWaitList());
-        assertFalse(comp127.getStudents().contains(sally));
+        assertFalse(comp127.getRoster().contains(sally));
     }
 
     @Test
@@ -102,7 +102,7 @@ class RegistrarTest {
         sally.enrollIn(comp127);
         factory.enrollMultipleStudents(comp127, 20);
         assertTrue(sally.enrollIn(comp127)); // full now, but Sally was already enrolled
-        assertTrue(comp127.getStudents().contains(sally));
+        assertTrue(comp127.getRoster().contains(sally));
         assertFalse(comp127.getWaitList().contains(sally));
     }
 
@@ -144,7 +144,7 @@ class RegistrarTest {
     private void checkStudentInvariants(Student s) {
         for (Course c : s.getCourses())
             assertTrue(
-                c.getStudents().contains(s),
+                c.getRoster().contains(s),
                 s + " thinks they are enrolled in " + c
                     + ", but " + c + " does not have them in the list of students");
     }
@@ -156,13 +156,13 @@ class RegistrarTest {
             c.getWaitList().size(),
             c + " wait list contains duplicates: " + c.getWaitList());
 
-        waitListUnique.retainAll(c.getStudents());
+        waitListUnique.retainAll(c.getRoster());
         assertEquals(
             Set.of(),
             waitListUnique,
             c + " contains students who are both registered and waitlisted");
 
-        for (Student s : c.getStudents()) {
+        for (Student s : c.getRoster()) {
             assertTrue(
                 s.getCourses().contains(c),
                 c + " thinks " + s + " is enrolled, but " + s + " doesn't think they're in the class");
@@ -175,11 +175,11 @@ class RegistrarTest {
         }
 
         assertTrue(
-            c.getStudents().size() <= c.getEnrollmentLimit(),
+            c.getRoster().size() <= c.getEnrollmentLimit(),
             c + " has an enrollment limit of " + c.getEnrollmentLimit()
-                + ", but has " + c.getStudents().size() + " students");
+                + ", but has " + c.getRoster().size() + " students");
 
-        if (c.getStudents().size() < c.getEnrollmentLimit()) {
+        if (c.getRoster().size() < c.getEnrollmentLimit()) {
             assertEquals(
                 List.of(),
                 c.getWaitList(),
