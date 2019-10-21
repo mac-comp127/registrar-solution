@@ -6,7 +6,7 @@
 
 
 ----------------------------------------------------------------
-Sketch of instructions + useful fragments from  old instructions
+Instructions
 ----------------------------------------------------------------
 
 
@@ -15,7 +15,7 @@ Sketch of instructions + useful fragments from  old instructions
 In this lab, we are practicing:
 
 - **Object modeling**: representing concepts as object-oriented code.
-- **Programming by contract**: writing code that satisfies logical constraints.
+- **The API concept through programming by contract**: writing code that satisfies logical constraints.
 - **Defensive programming**: writing code that actively prevents other code from using it incorrectly.
 
 
@@ -51,21 +51,28 @@ Contract of the `Student` and `Course` API:
 
 Add the ability for students to drop courses.
 
+- A student can drop a class that they are enrolled in or in its waitlist
 - If an enrolled student drops, then the first wait-listed student is automatically enrolled. (That’s not realistic, of course, but it makes for a better programming exercise! I guess the registrar at this college is just a little too eager.)
-
-
----
-Notes for Esra
-
-Solution here: https://github.com/mac-comp127-master/127-registrar/commit/5eea742d03c0a4889a7cc5158bdd8d7598895b88
-
-Hints I think they’ll need:
-- public Student.drop() / internal Course.drop()
-    - One calls the other
-    - Don't make both public!
-    - Parallel to how enroll works; study that
-- What tests to add (let them think about details, but some light guidance on conditions to test for)
-- Remember to update Javadoc for getWaitList()
+- Two things happen when a student drops a class (aside from the waitlist effect described above):
+    - The course is no longer on the course list of that student
+    - The student is no longer on the roster for the course
+    - Hint:
+        - public Student.drop() / internal Course.drop()
+            - One calls the other
+            - Don't make both public!
+            - Parallel to how enroll works; study that
+- Remember to test early and test often
+    - What do you need to test to ensure proper working of this method? (i.e. What is the contract?) Discuss this with your partner briefly before proceeding.
+    
+    ...........................................................
+    - We have already stated that two things happen when a student drops a course. Those seem like good candidates for testing to begin with.
+        - If a student drops a course, what happens to the other courses they’re taking? 
+        - If a student drops a course, what happens to the rosters of other courses they’re taking?
+    - We also need to make sure that the waitlist process works right
+        - If a waitlisted student drops that course, what happens to the other students in the waitlist for that course?
+        - If an enrolled student drops that course, what happens to the waitlist (specifically, to the student at the top of the waitlist)?
+        
+- Finally, update Javadoc for getWaitList()
 --- 
 
 
@@ -76,18 +83,23 @@ Hints I think they’ll need:
 You are going to replace the last item in the contract above with the following new rule:
 
 - An existing enrollment limit now should be modifiable at eny time, regardless of whether students have already started registering.
-    > The enrollment limit cannot change to be less than the number of students already registered.
+    > (R1) The enrollment limit cannot change to be less than the number of students already registered.
     
-    > If students are on the waitlist and the enrollment limit increases, the students automatically are enrolled (up to the new enrollment limit).
+    > (R2) If students are on the waitlist and the enrollment limit increases, the students automatically are enrolled (up to the new enrollment limit).
+    
+- This new contract requires us to make some changes in the setEnrollmentLimit()
+    - To address (R1), you may use the following:
+    `if (getStudents().size() > limit) {`
+            `throw new IllegalArgumentException("cannot set limit below class size");`
+`}`
+
+    - Once you make this modification, test it 
+    
+    - To address (R2), you will need a way to to enroll students from the waitlist up to the new enrollment limit or until there are no students on the waitlist for that course, whichever happens first. 
+    - Write a method `enrollFromWaitlist()` to implement this
+    - Where do you need to call the `enrollFromWaitlist()` method? 
 
 
----
-Notes for Esra
 
-Solution here: https://github.com/mac-comp127-master/127-registrar/commit/bb8a1e7c40b8bdf35b183c340219f1525284139d
 
-Hints I think they’ll need:
-- Change IllegalStateException to IllegalArgumentException (just give them that; it’s good pratice they should see, but we haven’t talked about it at all)
-- Help testing for that exception (maybe just give them the code? again has stuff we haven’t talked about)
-- **After** you get it working and tests passing, see if you can remove any duplicate logic in drop() and setEnrollmentLimit() related to automatically enrolling from the waitlist. (This is a nice “aha” moment that I'd like to let them have the chance to discover: the while(...) loop that enrolls until full or waitlist is empty can cover both methods.)
---- 
+
