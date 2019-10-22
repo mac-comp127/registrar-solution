@@ -87,3 +87,6 @@ Replace the last item in the contract above with the following new rule:
     - To address (R2), you will need a way to to enroll students from the waitlist either (a) up to the new enrollment limit or (b) until there are no students on the waitlist for that course, whichever happens first. Write a method `enrollFromWaitlist()` to implement this. Where do you need to call the `enrollFromWaitlist()` method?
     - What tests do you need to add to make sure things work? Are there any tricky cases where your logic might break, and that your tests should thus cover?
     - After you have that tested and working: Did you notice yourself duplicating any logic to enroll students from the waitlist? Is there a way to put that logic in a shared helper method so it isn't duplicated?
+
+- Update the Javadoc for `getWaitList()` again to make sure it describes how everything behaves.
+- Look over `RegistrarTest`. Are there any additional conditions you should test for? Imagine bugs the code could have. For each of those bugs, is there a test that would fail?
