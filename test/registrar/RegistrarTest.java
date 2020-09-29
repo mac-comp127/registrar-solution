@@ -127,6 +127,47 @@ class RegistrarTest {
         });
     }
 
+    // ------ Drop courses ------
+
+    @Test
+    void studentCanDrop() {
+        sally.enrollIn(comp127);
+        sally.drop(comp127);
+        assertEquals(Set.of(), sally.getCourses());
+        assertEquals(Set.of(), comp127.getRoster());
+    }
+
+    @Test
+    void dropHasNoEffectOnOtherCoursesOrStudents() {
+        sally.enrollIn(comp127);
+        fred.enrollIn(comp127);
+        sally.enrollIn(math6);
+        sally.drop(comp127);
+        assertEquals(Set.of(math6), sally.getCourses());
+        assertEquals(Set.of(fred), comp127.getRoster());
+    }
+
+    @Test
+    void dropRemovesFromWaitlist() {
+        factory.enrollMultipleStudents(comp127, 16);
+        sally.enrollIn(comp127);
+        fred.enrollIn(comp127);
+        zongo.enrollIn(comp127);
+        fred.drop(comp127);
+        assertEquals(List.of(sally, zongo), comp127.getWaitlist());
+    }
+
+    @Test
+    void dropEnrollsWaitlistedStudents() {
+        sally.enrollIn(comp127);
+        factory.enrollMultipleStudents(comp127, 15);
+        zongo.enrollIn(comp127);
+        fred.enrollIn(comp127);
+        sally.drop(comp127);
+        assertTrue(comp127.getRoster().contains(zongo));
+        assertEquals(List.of(fred), comp127.getWaitlist());
+    }
+
     // ------ Post-test invariant check ------
     //
     // This is a bit persnickety for day-to-day testing, but these kinds of checks are appropriate
