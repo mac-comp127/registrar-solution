@@ -36,4 +36,9 @@ public class Student {
         }
         return success;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

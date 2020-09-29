@@ -98,6 +98,6 @@ public class Course {
 
     @Override
     public String toString() {
-        return getTitle() + " (" + getCatalogNumber() + ")";
+        return getCatalogNumber();
     }
 }
