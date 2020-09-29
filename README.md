@@ -9,6 +9,29 @@ In this lab, we are practicing:
 We give you objects used by a hypothetical college registrar system to track which students are enrolled in which courses. We also give you the API contract of these objects. Your job is to add two new features while preserving the API contract.
 
 
+## Aside: A quick introduction to `Set`
+
+This lab is your first introduction to Java’s `Set` interface. Like lists, sets are a collection type. There are two differences between lists and sets:
+
+- A `List` can contain duplicate elements, but every element in a `Set` is unique. If you have a `Set<String>` and you call `add("Hello")` a million times, the set will still only have `"Hello"` once, and its size will still be 1.
+- A `List` preserves the order of elements added to it; a `Set` does not. This means that, unlike a list, you cannot get an element of a set by numeric index. You can iterate over a set with a for-each loop just list a list, but you may get the elements back in any order. The order of the elements may even change as the set grows and shrinks!
+
+Basic usage of `Set` closely parallels `List`:
+
+|                                         | `List`                      | `Set`                      |
+|-----------------------------------------|-----------------------------|----------------------------|
+| Elements ordered?                       | Yes                         | No                         |
+| Elements unique?                        | No                          | Yes                        |
+| Create immutable with specific elements | `List.of(…)`                | `Set.of(…)`                |
+| Create empty mutable                    | `new ArrayList<>()`         | `new HashSet<>()`          |
+| Get size                                | `list.size()`               | `set.size()`               |
+| Check if empty                          | `list.isEmpty()`            | `set.isEmpty()`            |
+| Loop over elements                      | `for(SomeType elem : list)` | `for(SomeType elem : set)` |
+| Check if `e` is present in collection   | `list.contains(e)` (slow!)  | `set.contains(e)` (fast!)  |
+
+This should be enough information to get you through the lab. You can consult the Javadoc for [`List`](https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/util/List.html) and [`Set`](https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/util/Set.html) if you need more information.
+
+
 ## Contract of the `Student` and `Course` API
 
 - Students know their registered courses, and courses know the list of students enrolled in them.
