@@ -37,6 +37,15 @@ public class Student {
         return success;
     }
 
+    /**
+     * Drops this student from the given course, or removes them from the wait list.
+     * Has no effect if student is not already enrolled or waitlisted.
+     */
+    public void drop(Course course) {
+        courses.remove(course);
+        course.drop(this);
+    }
+
     @Override
     public String toString() {
         return name;
