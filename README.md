@@ -66,6 +66,7 @@ Add the ability for students to drop courses.
     - The course is no longer on the course list of that student.
     - The student is no longer on the roster for the course.
     - The student is no longer on the waitlist for the course.
+    - All the invariants above still hold, including the rule that if a course is not full, its waitlist is empty.
     - Hint:
         - Study the `public Student.enroll()` and internal `Course.enroll()` methods.
         - One calls the other. Which calls which?
@@ -87,7 +88,7 @@ Add the ability for students to drop courses.
 
 Replace the last item in the contract above with the following new rule:
 
-- An existing enrollment limit now should be modifiable at eny time, regardless of whether students have already started registering.
+- An existing enrollment limit now should be modifiable at any time, regardless of whether students have already started registering.
     > (R1) The enrollment limit cannot change to be less than the number of students already registered.
     
     > (R2) If students are on the waitlist and the enrollment limit increases, the students automatically are enrolled (up to the new enrollment limit).
