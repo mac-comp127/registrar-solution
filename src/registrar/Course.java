@@ -56,7 +56,7 @@ public class Course {
     /**
      * Returns students waiting to be enrolled.
      */
-    public List<Student> getWaitList() {
+    public List<Student> getWaitlist() {
         return waitlist;
     }
 

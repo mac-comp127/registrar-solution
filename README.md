@@ -48,7 +48,7 @@ This should be enough information to get you through the lab. You can consult th
     
     > The waitlist never contains duplicates.
     
-    > A student is never both enrolled in and wait listed for the same course.
+    > A student is never both enrolled in and waitlisted for the same course.
     
     > If a course is not full, then its waitlist is empty.
 
@@ -83,7 +83,7 @@ Add the ability for students to drop courses.
     - We also need to make sure that the waitlist process works right
         - If a waitlisted student drops that course, what happens to the other students in the waitlist for that course?
         - If an enrolled student drops that course, what happens to the waitlist (specifically, to the student at the top of the waitlist)?
-- Finally, update Javadoc for `getWaitList()` to describe how waitlisted students are automatically added.
+- Finally, update Javadoc for `getWaitlist()` to describe how waitlisted students are automatically added.
 - Commit your work so far with git.
 
 
@@ -115,5 +115,5 @@ Replace the last item in the contract above with the following new rule:
     - What tests do you need to add to make sure things work? Are there any tricky cases where your logic might break, and that your tests should thus cover?
     - After you have that tested and working: Did you notice yourself duplicating any logic to enroll students from the waitlist? Is there a way to put that logic in a shared helper method so it isn't duplicated?
 
-- Update the Javadoc for `getWaitList()` again to make sure it describes how everything behaves.
+- Update the Javadoc for `getWaitlist()` again to make sure it describes how everything behaves.
 - Look over `RegistrarTest`. Are there any additional conditions you should test for? Imagine bugs the code could have. For each of those bugs, is there a test that would fail?

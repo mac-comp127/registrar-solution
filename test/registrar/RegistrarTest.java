@@ -62,7 +62,7 @@ class RegistrarTest {
     @Test
     void enrollmentLimitDefaultsToUnlimited() {
         factory.enrollMultipleStudents(math6, 1000);
-        assertEquals(List.of(), math6.getWaitList());
+        assertEquals(List.of(), math6.getWaitlist());
         assertEquals(1000, math6.getRoster().size());
     }
 
@@ -76,15 +76,15 @@ class RegistrarTest {
     void enrollingUpToLimitAllowed() {
         factory.enrollMultipleStudents(comp127, 15);
         assertTrue(sally.enrollIn(comp127));
-        assertEquals(List.of(), comp127.getWaitList());
+        assertEquals(List.of(), comp127.getWaitlist());
         assertTrue(comp127.getRoster().contains(sally));
     }
 
     @Test
-    void enrollingPastLimitPushesToWaitList() {
+    void enrollingPastLimitPushesToWaitlist() {
         factory.enrollMultipleStudents(comp127, 16);
         assertFalse(sally.enrollIn(comp127));
-        assertEquals(List.of(sally), comp127.getWaitList());
+        assertEquals(List.of(sally), comp127.getWaitlist());
         assertFalse(comp127.getRoster().contains(sally));
     }
 
@@ -94,7 +94,7 @@ class RegistrarTest {
         sally.enrollIn(comp127);
         fred.enrollIn(comp127);
         zongo.enrollIn(comp127);
-        assertEquals(List.of(sally, fred, zongo), comp127.getWaitList());
+        assertEquals(List.of(sally, fred, zongo), comp127.getWaitlist());
     }
 
     @Test
@@ -103,11 +103,11 @@ class RegistrarTest {
         factory.enrollMultipleStudents(comp127, 20);
         assertTrue(sally.enrollIn(comp127)); // full now, but Sally was already enrolled
         assertTrue(comp127.getRoster().contains(sally));
-        assertFalse(comp127.getWaitList().contains(sally));
+        assertFalse(comp127.getWaitlist().contains(sally));
     }
 
     @Test
-    void doubleEnrollingAfterWaitListedHasNoEffect() {
+    void doubleEnrollingAfterWaitlistedHasNoEffect() {
         factory.enrollMultipleStudents(comp127, 16);
         sally.enrollIn(comp127);
         fred.enrollIn(comp127);
@@ -115,7 +115,7 @@ class RegistrarTest {
         fred.enrollIn(comp127);
         assertFalse(sally.enrollIn(comp127));
 
-        assertEquals(List.of(sally, fred, zongo), comp127.getWaitList());
+        assertEquals(List.of(sally, fred, zongo), comp127.getWaitlist());
     }
 
     @Test
@@ -150,11 +150,11 @@ class RegistrarTest {
     }
 
     private void checkCourseInvariants(Course c) {
-        Set<Student> waitListUnique = new HashSet<>(c.getWaitList());
+        Set<Student> waitListUnique = new HashSet<>(c.getWaitlist());
         assertEquals(
             waitListUnique.size(),
-            c.getWaitList().size(),
-            c + " wait list contains duplicates: " + c.getWaitList());
+            c.getWaitlist().size(),
+            c + " waitlist contains duplicates: " + c.getWaitlist());
 
         waitListUnique.retainAll(c.getRoster());
         assertEquals(
@@ -168,7 +168,7 @@ class RegistrarTest {
                 c + " thinks " + s + " is enrolled, but " + s + " doesn't think they're in the class");
         }
 
-        for (Student s : c.getWaitList()) {
+        for (Student s : c.getWaitlist()) {
             assertFalse(
                 s.getCourses().contains(c),
                 c + " lists " + s + " as waitlisted, but " + s + " thinks they are enrolled");
@@ -182,7 +182,7 @@ class RegistrarTest {
         if (c.getRoster().size() < c.getEnrollmentLimit()) {
             assertEquals(
                 List.of(),
-                c.getWaitList(),
+                c.getWaitlist(),
                 c + " is not full, but has students waitlisted");
         }
     }
