@@ -117,3 +117,5 @@ Replace the last item in the contract above with the following new rule:
 
 - Update the Javadoc for `getWaitlist()` again to make sure it describes how everything behaves.
 - Look over `RegistrarTest`. Are there any additional conditions you should test for? Imagine bugs the code could have. For each of those bugs, is there a test that would fail?
+
+This is the kind of thinking good developers do when they are writing a library to be shared by many projects, handling critical data whose correctness is essential, protecting their security-sensitive code against malicious attack, or simply thinking their way through a tricky set of rules and relationships.
