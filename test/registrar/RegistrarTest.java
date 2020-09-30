@@ -89,7 +89,7 @@ class RegistrarTest {
     }
 
     @Test
-    void waitListPreservesEnrollmentOrder() {
+    void waitlistPreservesEnrollmentOrder() {
         factory.enrollMultipleStudents(comp127, 16);
         sally.enrollIn(comp127);
         fred.enrollIn(comp127);
@@ -150,16 +150,16 @@ class RegistrarTest {
     }
 
     private void checkCourseInvariants(Course c) {
-        Set<Student> waitListUnique = new HashSet<>(c.getWaitlist());
+        Set<Student> waitlistUnique = new HashSet<>(c.getWaitlist());
         assertEquals(
-            waitListUnique.size(),
+            waitlistUnique.size(),
             c.getWaitlist().size(),
             c + " waitlist contains duplicates: " + c.getWaitlist());
 
-        waitListUnique.retainAll(c.getRoster());
+        waitlistUnique.retainAll(c.getRoster());
         assertEquals(
             Set.of(),
-            waitListUnique,
+            waitlistUnique,
             c + " contains students who are both registered and waitlisted");
 
         for (Student s : c.getRoster()) {

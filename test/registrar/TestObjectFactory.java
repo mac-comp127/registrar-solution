@@ -1,8 +1,5 @@
 package registrar;
 
-import registrar.Course;
-import registrar.Student;
-
 import java.util.LinkedList;
 import java.util.List;
 
