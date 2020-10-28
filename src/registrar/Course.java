@@ -39,11 +39,19 @@ public class Course {
         if (limit < 0) {
             throw new IllegalArgumentException("course cannot have negative enrollment limit: " + limit);
         }
-        if (!getRoster().isEmpty()) {
-            throw new IllegalStateException("cannot change enrollment limit once students are enrolled");
+        if (getRoster().size() > limit) {
+            throw new IllegalArgumentException("cannot set limit below class size");
         }
 
         this.enrollmentLimit = limit;
+
+        enrollFromWaitlist();
+    }
+
+    private void enrollFromWaitlist() {
+        while (!getWaitlist().isEmpty() && getRoster().size() < enrollmentLimit) {
+            waitlist.remove(0).enrollIn(this);
+        }
     }
 
     /**
@@ -54,8 +62,8 @@ public class Course {
     }
 
     /**
-     * Returns students waiting to be enrolled. If any students drop,
-     * the course will automatically enroll students from the waitlist.
+     * Returns students waiting to be enrolled. If any students drop, or if the enrollment limit
+     * rises, the course will automatically enroll students from the waitlist.
      */
     public List<Student> getWaitlist() {
         return waitlist;
@@ -87,9 +95,7 @@ public class Course {
     void drop(Student student) {
         waitlist.remove(student);
         roster.remove(student);
-        if (!getWaitlist().isEmpty() && getRoster().size() < enrollmentLimit) {
-            waitlist.remove(0).enrollIn(this);
-        }
+        enrollFromWaitlist();
     }
 
     /**

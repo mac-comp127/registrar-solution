@@ -119,11 +119,30 @@ class RegistrarTest {
     }
 
     @Test
-    void cannotChangeEnrollmentLimitOnceStudentsRegister() {
+    void canReduceEnrollmentLimitOnceStudentsRegister() {
         basketWeaving101.setEnrollmentLimit(10);
         fred.enrollIn(basketWeaving101);
-        assertThrows(IllegalStateException.class, () -> {
-            basketWeaving101.setEnrollmentLimit(11);
+        basketWeaving101.setEnrollmentLimit(8);
+        assertEquals(8, basketWeaving101.getEnrollmentLimit());
+    }
+
+    @Test
+    void waitlistedStudentsEnrolledIfLimitIncreased() {
+        factory.enrollMultipleStudents(comp127, 16);
+        sally.enrollIn(comp127);
+        fred.enrollIn(comp127);
+        zongo.enrollIn(comp127);
+        comp127.setEnrollmentLimit(18);
+        assertTrue(comp127.getRoster().contains(sally));
+        assertTrue(comp127.getRoster().contains(fred));
+        assertEquals(List.of(zongo), comp127.getWaitlist());
+    }
+
+    @Test
+    void cannotLowerEnrollmentLimitBelowClassSize() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            factory.enrollMultipleStudents(comp127, 8);
+            comp127.setEnrollmentLimit(7);
         });
     }
 
